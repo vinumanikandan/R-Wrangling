@@ -11,7 +11,9 @@ Participants should have:
 - Basic knowledge of R syntax
 - Familiarity with data frames and vectors
 - Installed R and RStudio
-- Installed `tidyverse` package (`install.packages("tidyverse")`)
+
+If you are new to R and encounter any difficulties, please refer to the [Basic R Guide](https://github.com/vinumanikandan/R-visualization/blob/main/README.md) for a comprehensive introduction and helpful resources.
+
 
 ## Agenda
 
@@ -100,5 +102,31 @@ A data frame in R is a two-dimensional data structure used to store tabular data
   
 Overall, using tibbles can lead to more readable and maintainable code, enhancing the data wrangling process.
 
+### Set up
 
-library(tidyverse)
+```
+install.packages("palmerpenguins")
+
+# install the complete tidyverse packages
+install.packages("tidyverse")
+
+# Alternatively, install just dplyr:
+install.packages("dplyr")
+
+# Load the packages
+library(palmerpenguins)
+
+## Load either 1 of the following
+library(dplyr) ## load only dplyr
+library(tidyverse) ## load all tidyverse packages
+
+```
+
+**Load the Dataset**
+The palmerpenguins package provides a dataset with measurements of three penguin species
+```
+penguins
+
+```
+
+![penguins tibble ](images/tibble1.png){width :50%}
