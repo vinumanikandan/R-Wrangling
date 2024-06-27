@@ -350,7 +350,41 @@ result_tbl <- penguins %>%
 print(result_tbl)
 
 ```
+Exercise 2:
+Use the iris dataset to demonstrate data manipulation with dplyr pipes.
 
-     
+1. Load the iris dataset and convert it to a tibble.
+2. Select the columns Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, and Species.
+3. Filter the rows to include only those iris flowers with Sepal.Length greater than 6.
+4. Create a new column Sepal.Ratio which is the ratio of Sepal.Length to Sepal.Width.
+5. Group the data by Species and calculate the mean Sepal.Length and mean Sepal.Ratio for each species.
+
+<details>
+  <summary>Excercise 2 Answer</summary>
+  
+```
+iris_tbl <- as_tibble(iris)
+
+# Perform the data manipulation steps
+result_tbl <- iris_tbl %>%
+# Select the columns Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, and Species.
+  select(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species) %>%
+# Filter the rows to include only those iris flowers with Sepal.Length greater than 6.
+  filter(Sepal.Length > 6) %>%
+# Create a new column Sepal.Ratio which is the ratio of Sepal.Length to Sepal.Width.
+  mutate(Sepal.Ratio = Sepal.Length / Sepal.Width) %>%
+# Group the data by Species and 
+  group_by(Species) %>%
+# calculate the mean Sepal.Length and mean Sepal.Ratio for each species.
+  summarize(
+    mean_Sepal.Length = mean(Sepal.Length, na.rm = TRUE),
+    mean_Sepal.Ratio = mean(Sepal.Ratio, na.rm = TRUE)
+  )
+
+iris_tbl
+
+```
+
+</details>
 
 
