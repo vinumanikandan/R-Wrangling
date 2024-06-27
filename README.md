@@ -254,7 +254,35 @@ penguins_selected_filtered_mutated3
 
 ```
 - **iv. sumarize()**
+The `summarize` function in dplyr is used to condense a data into a single summary row , based on specified summary statistics.Functions associated with `summarize` to compute aggregate values are as follows
+
+   - Center: mean(), median()
+   - Spread: sd(), IQR(), mad()
+   - Range: min(), max(),
+   - Position: first(), last(), nth(),
+   - Count: n(), n_distinct()
+   - Logical: any(), all()
+
+
+Often `summarize` is used in conjuction with **.by()| group_by()**
+
+```
+#global average
+summarize(penguins_selected_filtered_mutated,mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE))
+
+# average within species levels
+summarize(penguins_selected_filtered_mutated,mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE),.by='species')
+
+```
+
 - **v. group_by()**
+`group_by` function in dplyr is used to group data by one or more variables. This is particularly useful for summarizing and analyzing subsets of data within a larger dataset. When used in combination with functions like summarize, mutate, or filter, group_by allows for powerful and flexible data manipulation, facilitating comparative analysis across different groups.
+
+```
+# Grouping 
+group_by(penguins_selected_filtered_mutated,species)
+
+```
 - **vi. arrange()**
    
 
