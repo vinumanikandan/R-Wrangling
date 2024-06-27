@@ -129,7 +129,7 @@ penguins_df_tibble<-as_tibble(penguins_df)
 
 ```
 
-**Excercise 1**
+## Excercise 1 :
 
 Using the Base R methods do the following on the dataframe `penguins_df`
 
@@ -350,7 +350,9 @@ result_tbl <- penguins %>%
 print(result_tbl)
 
 ```
-Exercise 2:
+
+## Exercise 2:
+
 Use the iris dataset to demonstrate data manipulation with dplyr pipes.
 
 1. Load the iris dataset and convert it to a tibble.
