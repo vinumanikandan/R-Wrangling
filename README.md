@@ -156,6 +156,8 @@ dim(penguins_selected_filtered_df)
 penguins_selected_filtered_df <- transform(penguins_selected_filtered_df, bill_ratio = bill_length_mm / bill_depth_mm)
 penguins_selected_filtered_df
 
+
+
 #  find mean bill_length_mm by species
 
 mean_bill_length_mm <- aggregate(penguins_selected_filtered_df$bill_length_mm ~ penguins_selected_filtered_df$species, FUN = mean)
@@ -210,12 +212,50 @@ penguins_selected4 <- select(penguins,!(body_mass_g:year))
 penguins_selected4
 
 ```
+- **ii. filter()**
+The filter function in dplyr is used to subset rows based on specified conditions.This function is particularly useful for cleaning and downsampling datasets to the relevant observations for analysis. With filter, you can efficiently handle missing values, outliers, and any other data points that do not fit the requirements of your analysis.
+
+There are many functions and operators that are useful when constructing the expressions used to filter the data:
+   - ==, >, >= etc
+   - &, |, !, xor()
+   - is.na()
+   - between(), near()
+
+```
+# Filtering by single criteria 
+penguins_selected_filtered <- filter(penguins_selected,bill_length_mm > 40)
+
+# Filtering by multiple criteria within a single logical expression, could use &|,
+filter(penguins_selected, bill_length_mm >= 40 & bill_depth_mm >= 20)
+filter(penguins_selected, bill_length_mm >= 40 , bill_depth_mm >= 20)
+
+# Filtering by multiple criteria within a single logical expression,either 1 condition satisfies,
+filter(penguins_selected, bill_length_mm >= 40 | bill_depth_mm >= 20)
+
+```
+- **iii. mutate()**
+
+`mutate()` creates new columns that are functions of existing variables. It can also modify value (existing column) and delete columns (by setting their value to NULL).
+
+```
+## adding new variables
+
+penguins_selected_filtered_mutated<- mutate(penguins_selected_filtered,bill_ratio = bill_length_mm / bill_depth_mm)
+penguins_selected_filtered_mutated
+## adding new variables, remove existing variables
+
+penguins_selected_filtered_mutated2<- mutate(penguins_selected_filtered,bill_ratio = bill_length_mm / bill_depth_mm,species=NULL)
+penguins_selected_filtered_mutated2
+
+## adding new variables, remove existing variables and modify existing variables.
+penguins_selected_filtered_mutated3<- mutate(penguins_selected_filtered,bill_ratio = bill_length_mm / bill_depth_mm,species=NULL,bill_depth_mm=bill_depth_mm ^2)
+penguins_selected_filtered_mutated3
 
 
-- ii. filter()
-- iii. mutate()
-- iv. sumarize()
-- v. group_by()
+```
+- **iv. sumarize()**
+- **v. group_by()**
+- **vi. arrange()**
    
 
 
