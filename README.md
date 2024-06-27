@@ -12,70 +12,57 @@ Participants should have:
 - Familiarity with data frames and vectors
 - Installed R and RStudio
 
-If you are new to R and encounter any difficulties, please refer to the [Basic R Guide](https://github.com/vinumanikandan/R-visualization/blob/main/README.md) for a comprehensive introduction and helpful resources.
+If you are new to R please refer to [Basic R Guide](https://github.com/vinumanikandan/R-visualization/blob/main/README.md) for a comprehensive introduction and helpful resources.
 
 
 ## Agenda
 
-1. **Introduction to `dplyr`**
-   - Overview of the `dplyr` package
-   - Basic verbs: `select`, `filter`, `arrange`, `mutate`, `summarize`
-   - Exercises
+1. **Introduction to tibble**
+   - Why tibble ?
+   - Create and transform to tibble
 
-2. **Data Transformation with `dplyr`**
+
+2. **Introduction to `dplyr`**
+   - Overview of the `dplyr` package
+   - Basic commands : `select`, `filter`, `arrange`, `mutate`, `summarize`
+
+3. **Data Transformation with `dplyr`**
    - Working with factors and character strings
    - Using pipes (`%>%`) for chaining operations
    - Case study: Cleaning and transforming messy data
-   - Exercises
 
-3. **Reshaping Data with `tidyr`**
+4. **Reshaping Data with `tidyr`**
    - Introduction to `tidyr` for data reshaping
    - Converting between wide and long formats
    - Handling missing values
-   - Exercises
 
-4. **Combining Data Sets**
+5. **Combining Data Sets**
    - Joining (`left_join`, `inner_join`, etc.) data frames
    - Case study: Merging datasets from different sources
-   - Exercises
 
-5. **Data Visualization with `ggplot2`**
+6. **Data Visualization with `ggplot2`**
    - Introduction to `ggplot2` for data visualization
    - Basic plotting functions: `ggplot`, `geom_point`, `geom_bar`, `geom_line`
    - Customizing plots with themes and aesthetics
    - Exercises
 
-6. **Advanced `dplyr` Techniques**
+7. **Advanced `dplyr` Techniques**
    - Grouping and summarizing data (`group_by`, `summarize`)
    - Advanced filtering and conditional operations
    - Exercises
 
-7. **Case Study: Real-world Data Wrangling**
+8. **Case Study: Real-world Data Wrangling**
    - Applying `tidyverse` principles to a complex dataset
    - Practical tips and strategies for efficient data wrangling
    - Exercises
 
-8. **Conclusion and Next Steps**
+9. **Conclusion and Next Steps**
    - Recap of key concepts and techniques learned
    - Resources for further learning (books, online tutorials, etc.)
    - Q&A and Feedback
 
 
-**What is Tidyverse ?**
-
-[Tidyverse](https://www.tidyverse.org) is an ecosytem of R packages designed the usability of data which includes data wrangling,data manuplation,data managment and data plotting. Tidyverse achieves this by creating independent packages in its universe 
-
-**1. ggplot2 :** ggplot2 (grammer of graphics) is a R package for data visulization
-
-**2. dplyr   :** data manipulation
-
-**3. tibble  :** data managment
-
-**4: tidyr   :** data wrangling
-
- .... and many more
-
-# 1. Introduction to dplyr
+# 1. Introduction to tibble
 
 
 A data frame in R is a two-dimensional data structure used to store tabular data. It is similar to a table in a database or a spreadsheet in Excel.
@@ -130,3 +117,105 @@ penguins
 ```
 
 ![penguins tibble ](images/tibble1.png){width :50%}
+
+**Converting tibble as data frame**
+
+```
+# Convert tibble  to a normal data frame
+
+penguins_df <- as.data.frame(penguins
+
+# Create a tibble from an existing dataframe
+penguins_df_tibble<-as_tibble(penguins_df)
+
+```
+
+**Excercise 1**
+
+Using the Base R methods do the following on the dataframe `penguins_df`
+
+1) subset columns species, island, bill_length_mm, bill_depth_mm
+2) Consider only bill_length_mm is greater than 40
+3) Create a new new column called `bill_ratio` (bill_length_mm / bill_depth_mm)
+4) find mean bill_length_mm by species
+   
+<details>
+  <summary>Excercise 1 Answer</summary>
+  
+```
+# subset columns species, island, bill_length_mm, bill_depth_mm
+penguins_selected_df <- penguins_df[, c("species", "island", "bill_length_mm", "bill_depth_mm")]
+
+# Consider only bill_length_mm is greater than 40
+
+penguins_selected_filtered_df <- penguins_selected_df[penguins_selected_df$bill_length_mm > 40, ]
+dim(penguins_selected_filtered_df)
+
+# Create a new new column called `bill_ratio` (bill_length_mm / bill_depth_mm)
+
+penguins_selected_filtered_df <- transform(penguins_selected_filtered_df, bill_ratio = bill_length_mm / bill_depth_mm)
+penguins_selected_filtered_df
+
+#  find mean bill_length_mm by species
+
+mean_bill_length_mm <- aggregate(penguins_selected_filtered_df$bill_length_mm ~ penguins_selected_filtered_df$species, FUN = mean)
+mean_bill_length_mm
+```
+
+</details>
+
+# 2. Introduction to `dplyr`
+
+dplyr package is used for data manipulation and its attained using the following methods :
+
+   - select() picks variables based on their names.
+   - filter() picks cases based on their values.
+   - mutate() adds new variables that are functions of existing variables.
+   - slice() picks cases based on their position.
+   - summarize() reduces multiple values down to a single summary.
+   - arrange() changes the ordering of the rows.
+   - group_by() perform any operation by group.
+
+  For more information on [`dplyr`](https://dplyr.tidyverse.org)
+  
+- **i. select()**
+  
+The select function in dplyr is used to choose specific columns (subset) from a data relevant to analysis. By providing the names of the columns you want to keep, select allows you to quickly and intuitively subset your dataset.
+
+There are helper functions to select columns based on specific patterns such as
+
+   -   starts_with()
+   -    ends_with()
+   -    contains()
+   -    matches()
+     
+This function enhances code readability and efficiency by streamlining the process of working with large datasets and eliminating the need to repeatedly specify unwanted columns.
+
+Syntax : **select(`tb`, COLUMN_NAMES)**
+
+for example subset columns species, island, bill_length_mm, bill_depth_mm from the tibble `penguins`
+
+```
+# Method 1 : here first variable is tibble and rest are the coulmns of interest
+penguins_selected <- select(penguins,species, island, bill_length_mm, bill_depth_mm)
+
+# Method 2 :c() for combining selections
+penguins_selected2 <- select(penguins,c(species, island, bill_length_mm, bill_depth_mm))
+
+# Method 3 : for selecting a range of consecutive variables.
+penguins_selected3 <- select(penguins,species:bill_length_mm, sex)
+
+# Method 4 : ! for taking the complement of a set of variables.
+penguins_selected4 <- select(penguins,!(body_mass_g:year))
+penguins_selected4
+
+```
+
+
+- ii. filter()
+- iii. mutate()
+- iv. sumarize()
+- v. group_by()
+   
+
+
