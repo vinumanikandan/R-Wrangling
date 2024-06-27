@@ -21,7 +21,6 @@ If you are new to R please refer to [Basic R Guide](https://github.com/vinumanik
    - Why tibble ?
    - Create and transform to tibble
 
-
 2. **Introduction to `dplyr`**
    - Overview of the `dplyr` package
    - Basic commands : `select`, `filter`, `arrange`, `mutate`, `summarize`
@@ -276,14 +275,82 @@ summarize(penguins_selected_filtered_mutated,mean_bill_length_mm = mean(bill_len
 ```
 
 - **v. group_by()**
+  
 `group_by` function in dplyr is used to group data by one or more variables. This is particularly useful for summarizing and analyzing subsets of data within a larger dataset. When used in combination with functions like summarize, mutate, or filter, group_by allows for powerful and flexible data manipulation, facilitating comparative analysis across different groups.
 
 ```
-# Grouping 
-group_by(penguins_selected_filtered_mutated,species)
+# Grouping by single column
+penguins_selected_filtered_mutated_group<-group_by(penguins_selected_filtered_mutated,species)
+
+# Grouping by multiple column
+
+penguins_selected_filtered_mutated_group2<-group_by(penguins_selected_filtered_mutated,species,island)
 
 ```
+
 - **vi. arrange()**
+
+`arrange` function in dplyr is used to sort the rows  based on the values of one or more columns. By specifying the columns to sort by, arrange can order data in ascending or descending order.
+
+```
+arrange(penguins_selected_filtered_mutated_group,desc(bill_length_mm))
+
+```
+3. **Data Transformation with `dplyr`**
    
+`dplyr` functions are used in conjunction with `forcats`: for factor manipulation and `stringr` for character string operations.
+
+Some methods associated with these libraries are as follow
+
+   - `as.factor` (from R base): Ensure column is a factor
+   - `fct_relevel()`, `fct_reorder()` (from forcats package): Reorder and relabel factor levels
+   - `str_detect()`, `str_replace()`, `str_to_upper()` (from stringr package): Perform string manipulations
+
+```
+### Ensuring the column as factor and relevel species
+
+mutate(penguins_selected_filtered, # tibble variable
+    species = as.factor(species),  # Ensure species is a factor
+    species = fct_relevel(species, "Adelie", "Chinstrap", "Gentoo")  # Relevel species factor
+  )
+
+# Updating the existing coulmn by making the values in island to upercase
+penguins_selected_filtered_upercase<- mutate(penguins_selected_filtered, # tibble variable
+    island = str_to_upper(island)  # Convert island names to uppercase
+  )
+# Filtering the datafor whose island contains "T"
+  filter(penguins_selected_filtered_upercase,
+         str_detect(island, "T")
+      ) 
+```
+ **Using pipes (`%>%`) for chaining operations**
+
+Those who is familiar with bash the pipe`|` operator passes the output of one command as the input to the next, enabling streamlined command sequences. 
+
+```
+   # in bash
+   command | command | command > output.txt
+```
+Similarly, in `dplyr`,  `%>%` or  `|>`  instead of `|` pipe operator can chain together multiple functions, allowing for clear, readable, and sequential data manipulation. This operator is provided by the `magrittr` package.
+
+
+All the the above data wrangling steps can be condensed to on single line
+
+
+```
+# perform a series of operations
+result_tbl <- penguins %>%
+  select(species, island, bill_length_mm, bill_depth_mm) %>%
+  filter(bill_length_mm > 40) %>%
+  mutate(bill_ratio = bill_length_mm / bill_depth_mm) %>%
+  group_by(species) %>%
+  summarize(mean_bill_length_mm = mean(bill_length_mm, na.rm = TRUE))
+
+# Print the result
+print(result_tbl)
+
+```
+
+     
 
 
