@@ -389,4 +389,67 @@ iris_tbl
 
 </details>
 
+# 4 Reshaping Data with tidyr
 
+- `tidyr` is an essential package in the `tidyverse` that simplifies the process of reshaping and tidying data in R.
+- `tidyr` makes it easier to handle messy data, ensuring that it is structured in a way that facilitates analysis and visualization.
+- Has a suite of functions designed to transform data into a tidy format, where each variable is a column, each observation is a row, and each type of observational unit forms a table.
+-  Key functions like pivot_longer() and pivot_wider()  which converts between long and wide formats
+
+```
+#Initializing the tidyr package
+library(tidyr)
+```
+## Exercise 2:
+
+1.  Install `airway package`, which contains RNA-seq gene expression data from an experiment with human airway smooth muscle cells and load the data.
+2.  Convert the data to tibble formate
+<details>
+  <summary>Excercise 3 Answer</summary>
+  
+```
+#install and initialise library
+BiocManager::install("airway")        
+library(airway)
+
+#Load airway
+data("airway")
+
+# Convert SummarizedExperiment object to dataframe
+airway_df <- as.data.frame(assay(airway))
+airway_df
+
+# Convert dataframe  to tibbl
+airway_tbl <- as_tibble(airway_df, rownames = "gene")
+airway_tbl
+
+```
+</details>
+
+**Converting between wide and long formats**
+
+`pivot_longer()` to convert the dataset from wide to long format,
+with sample as the column indicating the sample and expression as the gene expression values.
+
+```
+# From wide to long format using pivot_longer
+long_data <- airway_tbl %>%
+  pivot_longer(cols = -gene, 
+               names_to = "sample", 
+               values_to = "expression")
+```
+
+`pivot_wider()` to convert the long format data  to wide format, with separate columns for each sample.
+
+```
+wide_data <- long_data %>%
+  pivot_wider(names_from = "sample", values_from = "expression")
+wide_data
+```
+**Handling missing values**
+
+# 5.Combining Data Sets
+
+Joining (left_join, inner_join, etc.) data frames
+Case study: Merging datasets from different sources
+Data Visualization with ggplot2
