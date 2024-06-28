@@ -35,31 +35,17 @@ If you are new to R please refer to [Basic R Guide](https://github.com/vinumanik
    - Converting between wide and long formats
    - Handling missing values
 
-5. **Combining Data Sets**
-   - Joining (`left_join`, `inner_join`, etc.) data frames
-   - Case study: Merging datasets from different sources
-
-6. **Data Visualization with `ggplot2`**
-   - Introduction to `ggplot2` for data visualization
+5. **Data Visualization with `ggplot2`**
    - Basic plotting functions: `ggplot`, `geom_point`, `geom_bar`, `geom_line`
    - Customizing plots with themes and aesthetics
    - Exercises
 
-7. **Advanced `dplyr` Techniques**
-   - Grouping and summarizing data (`group_by`, `summarize`)
-   - Advanced filtering and conditional operations
-   - Exercises
-
-8. **Case Study: Real-world Data Wrangling**
-   - Applying `tidyverse` principles to a complex dataset
-   - Practical tips and strategies for efficient data wrangling
-   - Exercises
-
-9. **Conclusion and Next Steps**
-   - Recap of key concepts and techniques learned
+6. **Conclusion and Next Steps**
+   - Other function
    - Resources for further learning (books, online tutorials, etc.)
    - Q&A and Feedback
 
+---
 
 # 1. Introduction to tibble
 
@@ -480,8 +466,65 @@ airquality_tbl %>%
 
 ```
 
-# 5.Combining Data Sets
+# 5. Data Visualization with `ggplot2`
 
-Joining (left_join, inner_join, etc.) data frames
-Case study: Merging datasets from different sources
-Data Visualization with ggplot2
+Detailed description on data visualization using base R and `ggplot2`  is described in this [tutorial](https://github.com/vinumanikandan/R-visualization).
+
+Here we will see on how to generate a plot showing the expression levels of the selected genes from the `airway` data across different samples using some of the methods we used above in conjuction with ggplot2.
+
+```
+#Subset Genes of interest
+selected_genes <- airway_tbl %>%
+  filter(gene %in% c("ENSG00000152583", "ENSG00000111640", "ENSG00000171150"))
+
+# Transform the data to long format
+long_data <- selected_genes %>%
+  pivot_longer(cols = -gene, 
+               names_to = "sample", 
+               values_to = "expression")
+
+
+#Plot the Gene Expressions
+ggplot(long_data, aes(x = sample, y = expression, color = gene)) +
+  geom_point() +
+  geom_line(aes(group = gene)) +
+  labs(title = "Gene Expression Levels Across Samples",
+       x = "Sample",
+       y = "Expression Level") +
+  theme_minimal()
+
+```
+
+**Single line script using pipe |>**
+
+```
+airway_tbl %>%
+  filter(gene %in% c("ENSG00000152583", "ENSG00000111640", "ENSG00000171150")) |>
+  pivot_longer(cols = -gene, names_to = "sample",  values_to = "expression")  |>
+  ggplot(aes(x = sample, y = expression, color = gene)) +
+  geom_point() +
+  geom_line(aes(group = gene)) +
+  labs(title = "Gene Expression Levels Across Samples",
+       x = "Sample",
+       y = "Expression Level") +
+  theme_minimal()
+```
+
+6. **Conclusion and Next Steps**
+   - Other usefull function:
+        - Joining data frames: (left_join, inner_join, etc.) 
+        - Converts grouped data to single rows :nest(), unnest()
+        - view data View() glimpse()
+
+      - There are other packages like `purr` ,`stringr` , `readr` which facilitates ehannced functioning and scripting in R
+     
+   - Resources for further learning
+
+        - [tidyverse](https://www.tidyverse.org/packages/)
+        - [dplyr website](https://dplyr.tidyverse.org)
+        - [dplyr cheatsheets](https://rstudio.github.io/cheatsheets/html/data-transformation.html?_gl=1*s6hqdr*_ga*NjA0NDU4NTg0LjE3MTk2MDM4NTI.*_ga_2C0WZ1JHG0*MTcxOTYwMzg1Mi4xLjEuMTcxOTYwMzk4Ny4wLjAuMA..)
+        - [tidyr website](https://tidyr.tidyverse.org)
+        - [tidyr cheatsheets](https://rstudio.github.io/cheatsheets/html/tidyr.html?_gl=1*tce6xs*_ga*NjA0NDU4NTg0LjE3MTk2MDM4NTI.*_ga_2C0WZ1JHG0*MTcxOTYwMzg1Mi4xLjAuMTcxOTYwMzg1Mi4wLjAuMA..)
+          
+   - Q&A and Feedback
+
