@@ -389,18 +389,8 @@ iris_tbl
 
 </details>
 
-# 4 Reshaping Data with tidyr
 
-- `tidyr` is an essential package in the `tidyverse` that simplifies the process of reshaping and tidying data in R.
-- `tidyr` makes it easier to handle messy data, ensuring that it is structured in a way that facilitates analysis and visualization.
-- Has a suite of functions designed to transform data into a tidy format, where each variable is a column, each observation is a row, and each type of observational unit forms a table.
--  Key functions like pivot_longer() and pivot_wider()  which converts between long and wide formats
-
-```
-#Initializing the tidyr package
-library(tidyr)
-```
-## Exercise 2:
+## Exercise 3:
 
 1.  Install `airway package`, which contains RNA-seq gene expression data from an experiment with human airway smooth muscle cells and load the data.
 2.  Convert the data to tibble formate
@@ -424,8 +414,22 @@ airway_tbl <- as_tibble(airway_df, rownames = "gene")
 airway_tbl
 
 ```
+
 </details>
 
+# 4 Reshaping Data with tidyr
+
+- `tidyr` is an essential package in the `tidyverse` that simplifies the process of reshaping and tidying data in R.
+- `tidyr` makes it easier to handle messy data, ensuring that it is structured in a way that facilitates analysis and visualization.
+- Has a suite of functions designed to transform data into a tidy format, where each variable is a column, each observation is a row, and each type of observational unit forms a table.
+-  Key functions like pivot_longer() and pivot_wider()  which converts between long and wide formats
+
+```
+
+#Initializing the tidyr package
+library(tidyr)
+
+```
 **Converting between wide and long formats**
 
 `pivot_longer()` to convert the dataset from wide to long format,
@@ -447,6 +451,34 @@ wide_data <- long_data %>%
 wide_data
 ```
 **Handling missing values**
+
+```
+#load data
+airquality_tbl <- as_tibble(airquality)
+
+# Find  missing values for each coulmns
+airquality_tbl %>% summarize_all(~sum(is.na(.)))
+
+#Each column in the resulting tibble (missing_summary) shows the number of missing (NA) values for the corresponding column in airquality_tbl.
+
+# Remove rows with any missing values using drop_na()
+airquality_tbl %>%  drop_na()
+
+# Replacing missing value
+
+airquality_tbl %>%
+  replace_na(list(
+                     Ozone = 0, # replaces NA with 0
+                     Solar.R = 0,  # replaces NA with 0
+                     Wind = mean(airquality$Wind, na.rm = TRUE),  # replaces NA with calculated mean after ignoring NA
+                     Temp = mean(airquality$Temp, na.rm = TRUE), # replaces NA with calculated mean after ignoring NA
+                      Month = 5, # replaces NA with 5
+                      Day = 1)  # replaces NA with 1
+              )
+
+
+
+```
 
 # 5.Combining Data Sets
 
