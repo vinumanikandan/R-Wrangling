@@ -311,7 +311,7 @@ penguins_selected_filtered_upercase<- mutate(penguins_selected_filtered, # tibbl
 ```
  **Using pipes (`%>%`) for chaining operations**
 
-Those who is familiar with bash the pipe`|` operator passes the output of one command as the input to the next, enabling streamlined command sequences. 
+Those who is familiar with bash ([linux tutorial](https://github.com/vinumanikandan/Training_BasicLinux)), pipe`|` operator passes the output of one command as the input to the next, enabling streamlined command sequences. 
 
 ```
    # in bash
