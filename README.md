@@ -40,7 +40,7 @@ If you are new to R please refer to [Basic R Guide](https://github.com/vinumanik
    - Customizing plots with themes and aesthetics
    - Exercises
 
-6. **Conclusion and Next Steps**
+6. **Conclusion**
    - Other function
    - Resources for further learning (books, online tutorials, etc.)
    - Q&A and Feedback
@@ -525,6 +525,7 @@ airway_tbl %>%
         - [dplyr cheatsheets](https://rstudio.github.io/cheatsheets/html/data-transformation.html?_gl=1*s6hqdr*_ga*NjA0NDU4NTg0LjE3MTk2MDM4NTI.*_ga_2C0WZ1JHG0*MTcxOTYwMzg1Mi4xLjEuMTcxOTYwMzk4Ny4wLjAuMA..)
         - [tidyr website](https://tidyr.tidyverse.org)
         - [tidyr cheatsheets](https://rstudio.github.io/cheatsheets/html/tidyr.html?_gl=1*tce6xs*_ga*NjA0NDU4NTg0LjE3MTk2MDM4NTI.*_ga_2C0WZ1JHG0*MTcxOTYwMzg1Mi4xLjAuMTcxOTYwMzg1Mi4wLjAuMA..)
+        - [Data science box](https://datasciencebox.org)
           
    - Q&A and Feedback
 
