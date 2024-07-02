@@ -108,7 +108,7 @@ penguins
 ```
 # Convert tibble  to a normal data frame
 
-penguins_df <- as.data.frame(penguins
+penguins_df <- as.data.frame(penguins)
 
 # Create a tibble from an existing dataframe
 penguins_df_tibble<-as_tibble(penguins_df)
